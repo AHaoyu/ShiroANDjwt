@@ -1,6 +1,7 @@
 package ShiroANDjwt.Configuration;
 
 
+import ShiroANDjwt.Shiro.AuthRealm;
 import org.apache.shiro.spring.LifecycleBeanPostProcessor;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -12,11 +13,12 @@ import org.apache.shiro.mgt.SecurityManager;
 import javax.servlet.Filter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.net.httpserver.AuthFilter;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import ShiroANDjwt.Shiro.AuthFilter;
 
 @Configuration
 public class ShiroConfiguration {
@@ -73,7 +75,7 @@ public class ShiroConfiguration {
     //自定义身份认证realm
     @Bean
     public AuthRealm userRealm() {
-        return AuthRealm();
+        return new AuthRealm();
     }
 
     //管理shiro生命周期
