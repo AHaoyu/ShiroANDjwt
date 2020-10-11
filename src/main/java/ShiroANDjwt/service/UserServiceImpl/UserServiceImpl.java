@@ -6,6 +6,8 @@ import ShiroANDjwt.Dto.TokenDto;
 import ShiroANDjwt.Dto.UserDto;
 import ShiroANDjwt.JWT.JwtAuthenticator;
 import ShiroANDjwt.Shiro.AuthConstant;
+import ShiroANDjwt.Utils.DataTranslationUtils;
+import ShiroANDjwt.Utils.JedisUtil;
 import ShiroANDjwt.Vo.PermissionVo;
 import ShiroANDjwt.Vo.RoleVo;
 import ShiroANDjwt.dao.PermissionDao;
