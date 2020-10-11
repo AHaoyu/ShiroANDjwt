@@ -2,6 +2,7 @@ package ShiroANDjwt.Dto;
 
 public class RoleDto {
     private long RoleId;
+    private String RoleName;
     private long UserId;
 
     public long getRoleId() {
@@ -18,5 +19,13 @@ public class RoleDto {
 
     public void setUserId(long userId) {
         UserId = userId;
+    }
+
+    public String getRoleName() {
+        return RoleName;
+    }
+
+    public void setRoleName(String roleName) {
+        RoleName = roleName;
     }
 }

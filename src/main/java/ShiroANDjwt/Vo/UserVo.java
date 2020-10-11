@@ -12,6 +12,8 @@ public class UserVo {
 
     public UserVo(UserDto u) {
         this.UserId = u.getUserId();
+        this.UserName = u.getUserName();
+        this.LoginPWD = u.getLoginPWD();
     }
 
     public List<RoleVo> getRoleVoList() {

@@ -11,6 +11,7 @@ public class RoleVo {
 
     public RoleVo(RoleDto role) {
         this.RoleId = role.getRoleId();
+        this.RoleName = role.getRoleName();
     }
 
     public List<PermissionVo> getPermissionVoList() {
