@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ShiroANDjwt.mapper.RoleMapper" >
+    <resultMap id="RoleDto" type="ShiroANDjwt.Dto.RoleDto" >
+        <id column="user_id" property="UserId" jdbcType="BIGINT" />
+        <result column="role_name" property="RoleName" jdbcType="VARCHAR" />
+        <result column="role_id" property="RoleId" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="table_name01">role r</sql>
+
+    <sql id="table_name02">user_role ur</sql>
+
+    <sql id="Base_Column_List" >
+    ur.user_id, r.role_id, r.role_name
+    </sql>
+
+    <select id="qryRoleByUserId" resultMap="RoleDto" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from
+        <include refid="table_name01" />
+        INNER JOIN
+        <include refid="table_name02" />
+        on
+        r.role_id = ur.role_id
+        where ur.user_id = #{userId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

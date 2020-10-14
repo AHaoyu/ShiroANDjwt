@@ -7,7 +7,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.sun.tools.javac.util.StringUtils;
 
 
 import javax.servlet.ServletResponse;
@@ -77,7 +76,7 @@ public class JwtAuthenticator {
     public static String getRequestToken(HttpServletRequest httpServletRequest){
         String token = "";
         Cookie[] cookies = httpServletRequest.getCookies();
-        StringUtils su = new StringUtils();
+        //StringUtils su = new StringUtils();
         if(cookies != null){
             for(Cookie ck : cookies){
                 if(ck.getName().equals(AuthConstant.COOKIE_TOKEN_NAME)){

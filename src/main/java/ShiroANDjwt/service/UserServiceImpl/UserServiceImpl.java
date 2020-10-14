@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PermissionDao permissionDao;
 
-    @Autowired
-    private JedisUtil jedisUtil;
+    //@Autowired
+    //private JedisUtil jedisUtil;
 
     @Override
     //登录，根据用户信息查询用户并关联角色和权限
@@ -98,14 +98,15 @@ public class UserServiceImpl implements UserService {
     }
 
     //处理token,调用生成token的方法，返回token，在这里引入了redis,如果有必要的话想将token保存到redis里面。
-    @Override
-    public String saveToken(UserVo userVo) {
+    //@Override
+    public String creatToken(UserVo userVo) {
         try{
             Date setTime = new Date();
             Date expireTime = new Date();
             expireTime.setTime(setTime.getTime() + AuthConstant.EXPIRE_TIME);
             String token = JwtAuthenticator.sign(userVo, expireTime);
             //如果JedisPoll存在，将token存储起来。
+            /**
             if(jedisUtil.getJedisPool() != null){
                 TokenDto tokenDto = new TokenDto();
                 tokenDto.setUserId(userVo.getUserId());
@@ -117,12 +118,14 @@ public class UserServiceImpl implements UserService {
                         SerializeUtil.serialize(tokenDto),
                         JedisConfig.database);
             }
+             **/
             return token;
         }catch (Exception e){
         }
         return null;
     }
 
+    /**
     //删除token，主要是用户注销的时候，设置token立马过期，并删除Jedis里面存储的token
     @Override
     public void deleteToken(UserVo userVo) {
@@ -132,4 +135,5 @@ public class UserServiceImpl implements UserService {
             jedisUtil.del(JedisConfig.database,String.valueOf(userVo.getUserId()).getBytes());
         }
     }
+    **/
 }

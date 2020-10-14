@@ -16,8 +16,10 @@ public class PermissionDao {
 
     public List<PermissionDto> qryPermissionByRoleIds(List<Long> roleIds) {
         List<PermissionDto> permissionDtos = new ArrayList<>();
+        List<PermissionDto> permissionDto;
         for(long roleId : roleIds) {
-            permissionDtos.add(permissionMapper.qryPermissionByRoleId(roleId));
+            permissionDto = permissionMapper.qryPermissionByRoleId(roleId);
+            permissionDtos.addAll(permissionDto);
         }
         return permissionDtos;
     }

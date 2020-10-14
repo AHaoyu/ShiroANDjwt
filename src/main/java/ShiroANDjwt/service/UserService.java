@@ -10,8 +10,8 @@ public interface UserService {
 
     public List<UserVo> qryUserByUserName(String userName);
 
-    public String saveToken(UserVo userVo);
+    public String creatToken(UserVo userVo);
 
-    public void deleteToken(UserVo userVo);
+    //public void deleteToken(UserVo userVo);
 
 }

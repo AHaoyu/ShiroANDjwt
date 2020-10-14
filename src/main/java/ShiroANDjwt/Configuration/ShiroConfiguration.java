@@ -54,8 +54,9 @@ public class ShiroConfiguration {
             openAuth根据上面的三元运算条件决定是自带的anno还是我们自定义的过滤器auth（AuthFilter）
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
-        filterMap.put("/user/login", "anon");
-        filterMap.put("user/fecthCurrentUser", "anon");
+        filterMap.put("/login", "anon");
+        filterMap.put("/getUser", "anon");
+        filterMap.put("/fecthCurrentUser", "anon");
         filterMap.put("/**", openAuth);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 

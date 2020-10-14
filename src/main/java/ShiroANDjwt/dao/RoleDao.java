@@ -16,8 +16,10 @@ public class RoleDao {
 
     public List<RoleDto> qryRoleByUserIds(List<Long> userIds) {
         List<RoleDto> roleDtos = new ArrayList<>();
+        List<RoleDto> roleDto;
         for(long userId : userIds) {
-            roleDtos.add(roleMapper.qryRoleByUserId(userId));
+            roleDto = roleMapper.qryRoleByUserId(userId);
+            roleDtos.addAll(roleDto);
         }
         return roleDtos;
     }

@@ -29,4 +29,12 @@ public class RoleVo {
     public void setRoleName(String roleName) {
         RoleName = roleName;
     }
+
+    public long getRoleId() {
+        return RoleId;
+    }
+
+    public void setRoleId(long roleId) {
+        RoleId = roleId;
+    }
 }

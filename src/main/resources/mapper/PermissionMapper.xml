@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ShiroANDjwt.mapper.PermissionMapper" >
+    <resultMap id="PermissionDto" type="ShiroANDjwt.Dto.PermissionDto" >
+        <id column="role_id" property="RoleId" jdbcType="BIGINT" />
+        <result column="permission_name" property="PermissionName" jdbcType="VARCHAR" />
+        <result column="permission_id" property="PermissionId" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="table_name01">permission p</sql>
+
+    <sql id="table_name02">role_permission rp</sql>
+
+    <sql id="Base_Column_List" >
+    p.permission_id, p.permission_name, rp.role_id
+    </sql>
+
+    <select id="qryPermissionByRoleId" resultMap="PermissionDto" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List" />
+        from
+        <include refid="table_name01" />
+        INNER JOIN
+        <include refid="table_name02" />
+        on
+        p.permission_id = rp.permission_id
+        where rp.role_id = #{roleId,jdbcType=BIGINT}
+    </select>
+
+</mapper>

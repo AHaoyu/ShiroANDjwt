@@ -3,7 +3,9 @@ package ShiroANDjwt.mapper;
 import ShiroANDjwt.Dto.PermissionDto;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface PermissionMapper {
-    PermissionDto qryPermissionByRoleId(long roleId);
+    List<PermissionDto> qryPermissionByRoleId(long roleId);
 }
