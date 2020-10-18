@@ -7,6 +7,7 @@ import ShiroANDjwt.pojo.Result;
 import ShiroANDjwt.pojo.UserQuery;
 import ShiroANDjwt.Vo.UserVo;
 import ShiroANDjwt.service.UserServiceImpl.UserServiceImpl;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -94,7 +95,8 @@ public class UserController {
 
     /**
      * 以方法的方式通过Realm查询当前用户角色或权限，进行授权访问
-     * (调用Realm中的doGetAuthorization方法并将cookie中JWTtoken的authorization的值传入
+     * (调用Realm中的doGetAuthorization方法并将cookie中JWTtoken的authorization的值传入)
+     * 还有checkRole，checkRoles,对于permission有isPermitted，checkPermission，checkPermissions
      * @param
      * @return
      */
@@ -108,14 +110,15 @@ public class UserController {
     }
 
     /**
-     * 这种以注解方式通过Realm查询当前用户角色或权限是无效的，why？
+     * 这种以注解方式通过Realm查询当前用户角色或权限, 需要在configuration中加上DefaultAdvisorAutoProxyCreator的bean
+     * 对于permission，另有@RequiresPermissions(value={"add","update"},logical = Logical.AND)
      * @param
      * @return
      */
-    @PostMapping("/alsoForAdmin")
-    @RequiresRoles("admin")
+    @PostMapping("/alsoForAdminPlusUser")
+    @RequiresRoles(value={"admin","user"},logical = Logical.OR)
     public Result AlsoforAdmin() {
-        return ResultUtils.success("Welcom! my boss~");
+        return ResultUtils.success("Welcom! admin or user~");
     }
 
 
