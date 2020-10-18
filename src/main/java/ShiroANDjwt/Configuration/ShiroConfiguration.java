@@ -56,7 +56,7 @@ public class ShiroConfiguration {
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/login", "anon");
         filterMap.put("/getUser", "anon");
-        filterMap.put("/fecthCurrentUser", "anon");
+        //filterMap.put("/fecthCurrentUser", "anon");
         filterMap.put("/**", openAuth);
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterMap);
 

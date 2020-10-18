@@ -33,7 +33,7 @@ public class AuthRealm extends AuthorizingRealm {
     private UserServiceImpl userService;
 
     /**
-     * 重写，绕过身份令牌异常导致的shiro报错
+     * 如果supports方法执行结果为true，才会执行这个realm的doGetAuthenticationInfo认证方法，否则跳过这个realm
      * @param authenticationToken
      * @return
      */
@@ -51,7 +51,10 @@ public class AuthRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         logger.info("用户角色权限认证");
         //获取用户登录信息
-        UserVo userVo = (UserVo)principals.getPrimaryPrincipal();
+        String token = (String)principals.getPrimaryPrincipal();
+        String user = JwtAuthenticator.getUsername(token);
+        List<UserVo> userVos = userService.login(new UserQuery(user, null));
+        UserVo userVo = userVos.get(0);
         //添加角色和权限
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         for(RoleVo role : userVo.getRoleVoList()){
@@ -79,7 +82,8 @@ public class AuthRealm extends AuthorizingRealm {
         }
         try{
             //查询用户是否存在
-            List<UserVo> userVo = userService.login(new UserQuery(user, null));
+            //List<UserVo> userVo = userService.login(new UserQuery(user, null));
+            List<UserVo> userVo = userService.qryUserByUserName(user);
             if(userVo.size() <= 0){
                 throw new AuthenticationException(AuthConstant.TOKEN_INVALID);
                 //token过期

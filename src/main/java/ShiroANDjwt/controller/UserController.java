@@ -7,6 +7,7 @@ import ShiroANDjwt.pojo.Result;
 import ShiroANDjwt.pojo.UserQuery;
 import ShiroANDjwt.Vo.UserVo;
 import ShiroANDjwt.service.UserServiceImpl.UserServiceImpl;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static org.apache.shiro.SecurityUtils.getSubject;
 
 @RestController
 public class UserController {
@@ -29,7 +32,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Result login(@RequestBody UserQuery userQuery, ServletResponse response) throws Exception{
-        List<UserVo> userVo = userService.login(userQuery);
+        List<UserVo> userVo = userService.qryUserByUserName(userQuery.getUserName());
         if(userVo.size() == 0){
             //账号不存在
             return ResultUtils.dataNotFoundError(AuthConstant.UNKNOWN_ACCOUNT);
@@ -70,6 +73,7 @@ public class UserController {
     @PostMapping("/fetchCurrentUser")
     public Result fetchCurrentUser(ServletRequest request){
         String token = JwtAuthenticator.getRequestToken((HttpServletRequest)request);
+        System.out.println(token);
         String userName = JwtAuthenticator.getUsername(token);
         List<UserVo> userVo = userService.qryUserByUserName(userName);
         if(userVo.size() <= 0){
@@ -87,4 +91,33 @@ public class UserController {
         }
         return ResultUtils.success(userVo.get(0));
     }
+
+    /**
+     * 以方法的方式通过Realm查询当前用户角色或权限，进行授权访问
+     * (调用Realm中的doGetAuthorization方法并将cookie中JWTtoken的authorization的值传入
+     * @param
+     * @return
+     */
+    @PostMapping("/forAdmin")
+    public Result forAdmin() {
+        if(getSubject().hasRole("admin")) {
+            return ResultUtils.success("Welcom! my boss~");
+        } else {
+            return ResultUtils.forbiddenError("let op! Unauthorized account!!");
+        }
+    }
+
+    /**
+     * 这种以注解方式通过Realm查询当前用户角色或权限是无效的，why？
+     * @param
+     * @return
+     */
+    @PostMapping("/alsoForAdmin")
+    @RequiresRoles("admin")
+    public Result AlsoforAdmin() {
+        return ResultUtils.success("Welcom! my boss~");
+    }
+
+
+
 }
